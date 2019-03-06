@@ -14,18 +14,6 @@ typedef unsigned short int ObjectId;
 
 
 
-// a few bitwise operations that combine 2 object ids into a single unsigned int
-unsigned int glueId(const ObjectId majorId, const ObjectId minorId){
-
-	unsigned int rtn = (unsigned int) majorId;
-
-	rtn = rtn << sizeof(ObjectId);
-
-	rtn = rtn || ((unsigned int) minorId);
-
-	return rtn;
-
-}
 
 class IdGroup {
 public:
@@ -34,7 +22,21 @@ public:
 	IdGroup(ObjectId masterId){
 
 		this->masterId	= masterId;
-		this->idCount 	= 0;
+		this->idCount 	= (ObjectId) 0;
+
+	}
+
+
+	// a few bitwise operations that combine 2 object ids into a single unsigned int
+	unsigned int glueIdToGroup(const ObjectId majorId, const ObjectId minorId){
+
+		unsigned int rtn = (unsigned int) majorId;
+
+		rtn = rtn << sizeof(ObjectId);
+
+		rtn = rtn || ((unsigned int) minorId);
+
+		return rtn;
 
 	}
 
@@ -46,7 +48,7 @@ public:
 		return this->masterId;
 	}
 
-	virtual ~IdGroup();
+	virtual ~IdGroup(){}
 
 
 private:

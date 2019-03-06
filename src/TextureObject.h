@@ -23,6 +23,9 @@ class TextureObject {
 public:
 
 	TextureObject(std::string imagePath, IdGroup * group);
+
+	void useTexture();
+
 	virtual ~TextureObject();
 
 
@@ -31,7 +34,8 @@ private:
 	int width;
 	int height;
 	int nrChannels;
-	unsigned char * image;
+
+	unsigned int texture;
 
 	ObjectId id;
 	unsigned int glId;

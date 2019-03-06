@@ -12,6 +12,8 @@
 #include <GLFW/glfw3.h>
 #include "Shader.h"
 #include "ShaderHandler.h"
+#include "IdGroup.h"
+#include "TextureObject.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -159,33 +161,9 @@ int main(){
 
 	// Loading a Texture
 
-	unsigned int texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	// set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    IdGroup * textureIds = new IdGroup((unsigned short int) 0);
 
-	// load and generate the texture
-	int width, height, nrChannels;
-
-	stbi_set_flip_vertically_on_load(true);
-
-	unsigned char * data = stbi_load("resources/textures/crate.png", &width, &height, &nrChannels, 0);
-	if (data)
-	{
-	   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	   glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-	   std::cout << "Failed to load texture" << std::endl;
-	}
-	stbi_image_free(data);
-
-
+    TextureObject * texture = new TextureObject("resources/textures/crate.png", textureIds);
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -199,7 +177,7 @@ int main(){
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glBindTexture(GL_TEXTURE_2D, texture);
+        texture->useTexture();
 
         shaderProgram->use();
         shaderProgram->setFloat4x4m("transform", trans);
@@ -209,7 +187,6 @@ int main(){
 
         glfwSwapBuffers(window);
         glfwPollEvents();
-
 
 
     }
