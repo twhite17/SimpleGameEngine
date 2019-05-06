@@ -7,17 +7,26 @@
  *      Author: twhite
  */
 
-typedef unsigned short int ObjectId;
+
+namespace IdGroupTypes{
+
+	typedef unsigned short int ObjectId;
+
+}
 
 #ifndef IDGROUP_H_
 #define IDGROUP_H_
 
 
-
+using namespace IdGroupTypes;
 
 class IdGroup {
 public:
 
+	IdGroup(int masterId){
+		this->masterId = (ObjectId) masterId;
+		this->idCount = (ObjectId) 0;
+	}
 
 	IdGroup(ObjectId masterId){
 

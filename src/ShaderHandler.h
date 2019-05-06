@@ -33,6 +33,7 @@ public:
 	void setBool		(	const std::string &name, bool value) const;
 	void setInt			(	const std::string &name, int value) const;
 	void setFloat		(	const std::string &name, float value) const;
+	void setFloat2f		(	const std::string &name, glm::vec2 vec) const;
 	void setFLoat3f		(	const std::string &name, glm::vec3 vec) const;
 	void setFloat4x4m	(	const std::string &name, glm::mat4x4 mat) const;
 

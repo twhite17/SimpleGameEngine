@@ -24,8 +24,12 @@
 
 
 
-const int LOCAL_WINDOW_WIDTH   =   400;
-const int LOCAL_WINDOW_HEIGHT  =   400;
+
+
+const int LOCAL_WINDOW_WIDTH   =   1920;
+const int LOCAL_WINDOW_HEIGHT  =   1080;
+
+
 
 // called each time the window is resized and adjusts the glViewport accordingly
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -47,8 +51,8 @@ int main(){
 
     // initialising glfw, defining opengl versions and telling glfw that opengl is going to be used
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /*
@@ -73,7 +77,7 @@ int main(){
     glfwMakeContextCurrent(window);
 
 
-    glViewport(0,0, LOCAL_WINDOW_WIDTH, LOCAL_WINDOW_HEIGHT);
+    glViewport(0, 0, LOCAL_WINDOW_WIDTH, LOCAL_WINDOW_HEIGHT);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     // Initialise GLEW
@@ -117,13 +121,14 @@ int main(){
     -0.5f,  0.5f, 0.0f,   	0.0f,  0.0f,  1.0f,		0.0f,  1.0f		// top left
     };
 
-    unsigned int indices[] = {  // note that we start from 0!
+    unsigned int indices[] = {
     0, 1, 3,   // first triangle
     1, 2, 3    // second triangle
     };
 
     glm::mat4x4 trans = glm::mat4x4(1.0f);
     trans = glm::translate(trans, glm::vec3(0.3f, 0.3f, 0.0f));
+
 
     // GL Buffer Creation and Binding (this is where vertex data is stored on the GPU)
 
@@ -161,7 +166,7 @@ int main(){
 
 	// Loading a Texture
 
-    IdGroup * textureIds = new IdGroup((unsigned short int) 0);
+    IdGroup * textureIds = new IdGroup(0);
 
     TextureObject * texture = new TextureObject("resources/textures/crate.png", textureIds);
 
@@ -183,6 +188,9 @@ int main(){
         shaderProgram->setFloat4x4m("transform", trans);
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+
+        trans = glm::rotate(trans, (float)(glfwGetTime() * 0.001), glm::vec3(0.0f, 0.0f, 1.0f));
 
 
         glfwSwapBuffers(window);

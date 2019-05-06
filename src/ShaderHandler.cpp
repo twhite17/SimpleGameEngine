@@ -59,6 +59,11 @@ void ShaderHandler::setFloat(const std::string &name, float value) const{
 
 }
 
+void ShaderHandler::setFloat2f(const std::string &name, glm::vec2 value) const{
+	int location = glGetUniformLocation(this->shaderProgram, name.c_str());
+	glUniform2fv(location, 1, glm::value_ptr(value));
+}
+
 
 void ShaderHandler::setFloat4x4m(const std::string &name, glm::mat4x4 mat) const{
 	int location = glGetUniformLocation(this->shaderProgram, name.c_str());
